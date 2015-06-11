@@ -60,7 +60,7 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 	$tweet = $tweetProfile;
 	$wrapTweet = wordwrap($tweet, 37, "\n");
 	$data = $metadata;
-	$fuente = 'ClearSans-Medium.ttf';
+	$fuente = '../ClearSans-Medium.ttf';
 
 	imagettftext($im, 32, 0, 276, 164, $negro, $fuente, $name);
 	imagettftext($im, 15, 0, 276, 200, $gris, $fuente, $UserName);
@@ -75,12 +75,12 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 		$ProfileAvatar = imagecreatefromjpeg($linkProfile);
 	}
 
-	$im = imagecreatefrompng('yo.png');
+	$im = imagecreatefrompng('../tmp/yo.png');
 	$x = imagesx($ProfileAvatar);
 	$y = imagesy($ProfileAvatar);
 
 	imagecopyresized($im, $ProfileAvatar, 85, 118, 0, 0, 141, 141, $x, $y);
-	imagepng($im, 'final.png');
+	imagepng($im, '../tmp/final.png');
 
 	// dumpear memoria
 	imagedestroy($im);
@@ -89,7 +89,7 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 
 function MostrarImagen()
 {
-	echo '<img src="final.png" />';
+	echo '<img src="../tmp/final.png" />';
 }
 
 ?>

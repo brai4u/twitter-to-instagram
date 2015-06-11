@@ -47,8 +47,6 @@ function getData($link)
 function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadata)
 {
 
-	// Crear imagen base
-
 	$im = imagecreatetruecolor(680, 680);
 	$blanco = imagecolorallocate($im, 255, 255, 255);
 	$negro = imagecolorallocate($im, 35, 35, 35);
@@ -57,8 +55,6 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 	$Link = imagecolorallocate($im, 63, 63, 68);
 	imagefilledrectangle($im, 0, 0, 680, 680, $blanco);
 
-	// Texto obtenido del tweet
-
 	$name = $fullname;
 	$UserName = "@" . $username;
 	$tweet = $tweetProfile;
@@ -66,38 +62,27 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 	$data = $metadata;
 	$fuente = 'ClearSans-Medium.ttf';
 
-	// printear texto en imgen base
-
 	imagettftext($im, 32, 0, 276, 164, $negro, $fuente, $name);
 	imagettftext($im, 15, 0, 276, 200, $gris, $fuente, $UserName);
 	imagettftext($im, 22, 0, 110, 350, $NegroGris, $fuente, $wrapTweet);
 	imagettftext($im, 10, 0, 408, 570, $gris, $fuente, $data);
 	imagepng($im, "yo.png");
 
-	// Obtener foto de perfil actual, y cargar imagen base
-
 	if (substr($linkProfile, -3) == 'png') {
-		$estampa = imagecreatefrompng($linkProfile);
+		$ProfileAvatar = imagecreatefrompng($linkProfile);
 	}
 	else {
-		$estampa = imagecreatefromjpeg($linkProfile);
+		$ProfileAvatar = imagecreatefromjpeg($linkProfile);
 	}
 
 	$im = imagecreatefrompng('yo.png');
-	$x = imagesx($estampa);
-	$y = imagesy($estampa);
+	$x = imagesx($ProfileAvatar);
+	$y = imagesy($ProfileAvatar);
 
-	// Rezisar imagen de perfil y pegar en imagen base
-
-	imagecopyresized($im, $estampa, 85, 118, 0, 0, 141, 141, $x, $y);
-
-	// Guardar imagen en servidor
-	// header('Content-type: image/png');
-
+	imagecopyresized($im, $ProfileAvatar, 85, 118, 0, 0, 141, 141, $x, $y);
 	imagepng($im, 'final.png');
 
 	// dumpear memoria
-
 	imagedestroy($im);
 	MostrarImagen();
 }

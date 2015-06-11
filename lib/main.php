@@ -1,6 +1,5 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-error_reporting(0);
 
 function getData($link)
 {

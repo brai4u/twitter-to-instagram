@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-//error_reporting(0);
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
 function getData($link)
 {
 	include ("simple_html_dom.php");
-
+	$randomHash = bin2hex(mcrypt_create_iv(22, MCRYPT_DEV_URANDOM));
 	$url = $link;
 	$getUserName = explode('/', $url);
 	$userName = $getUserName[3];
@@ -41,10 +41,10 @@ function getData($link)
 		$metadata = $element->plaintext;
 	}
 
-	CrearImagen($linkProfile, $fullname, $tweet, $userName, $metadata);
+	CrearImagen($linkProfile, $fullname, $tweet, $userName, $metadata, $randomHash);
 }
 
-function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadata)
+function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadata, $randomHash)
 {
 
 	$im = imagecreatetruecolor(680, 680);
@@ -66,7 +66,7 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 	imagettftext($im, 15, 0, 276, 200, $gris, $fuente, $UserName);
 	imagettftext($im, 22, 0, 110, 350, $NegroGris, $fuente, $wrapTweet);
 	imagettftext($im, 10, 0, 408, 570, $gris, $fuente, $data);
-	imagepng($im, "yo.png");
+	imagepng($im, './temp/'.$randomHash."-base.png");
 
 	if (substr($linkProfile, -3) == 'png') {
 		$ProfileAvatar = imagecreatefrompng($linkProfile);
@@ -75,21 +75,23 @@ function CrearImagen($linkProfile, $fullname, $tweetProfile, $username, $metadat
 		$ProfileAvatar = imagecreatefromjpeg($linkProfile);
 	}
 
-	$im = imagecreatefrompng('yo.png');
+	$im = imagecreatefrompng('./temp/'.$randomHash.'-base.png');
 	$x = imagesx($ProfileAvatar);
 	$y = imagesy($ProfileAvatar);
 
 	imagecopyresized($im, $ProfileAvatar, 85, 118, 0, 0, 141, 141, $x, $y);
-	imagepng($im, 'final.png');
+	imagepng($im, './temp/'.$randomHash .'-final.png');
 
 	// dumpear memoria
 	imagedestroy($im);
-	MostrarImagen();
+	MostrarImagen($randomHash);
 }
 
-function MostrarImagen()
+function MostrarImagen($randomHash)
 {
-	echo '<img src="final.png" />';
+	?>
+	<img src="<?php echo './temp/'.$randomHash.'-final.png'; ?>" />
+	<?php
 }
 
 ?>

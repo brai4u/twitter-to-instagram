@@ -3,7 +3,7 @@
 	<title>tweet 2 instagram</title>
 </head>
 <body>
-<h1>tweet 2 instagram</h1>
+<h1>tweet 2 instagram v2</h1>
 <form action="" method="post">
 	<input type="text" name="linktweet" placeholder="link tweet"/>
 	<input type="submit" />
